@@ -32,14 +32,14 @@ def cityreader(cities=[]):
     with open(r'C:\Users\chris\Documents\Git\Sprint-Challenge--Intro-Python\src\cityreader\cities.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-          print(City(row['city'], row['lat'], row['lng']))
+          cities.append(City(row['city'], row['lat'], row['lng']))
     return cities
 
 cityreader(cities)
 
 # Print the list of cities (name, lat, lon), 1 record per line.
-for c in cities:
-    print(c)
+# for c in cities:
+#     print(c)
 
 # STRETCH GOAL!
 #
@@ -74,10 +74,30 @@ for c in cities:
 
 def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   # within will hold the cities that fall within the specified region
-  within = []
+  cityreader(cities)
+  if lat1 < lat2:
+    low_lat = lat1
+    high_lat = lat2
+  else:
+    low_lat = lat2
+    high_lat = lat1
+
+  if lon1 < lon2:
+    low_lon = lon1
+    high_lon = lon2
+  else:
+    low_lon = lon2
+    high_lon = lon1
+
+  within = [i for i in cities if float(i.lat) > float(low_lat) and float(i.lat) < float(high_lat) and float(i.lon) > float(low_lon) and float(i.lon) < float(high_lon)]
 
   # TODO Ensure that the lat and lon valuse are all floats
   # Go through each city and check to see if it falls within 
   # the specified coordinates.
 
   return within
+
+test = cityreader_stretch(45, -100, 32, -120, cities)
+
+for i in test:
+  print(i)
